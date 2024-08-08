@@ -1,0 +1,688 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.03 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| course             |
+| course_completed   |
+| employees          |
+| events             |
+| orders             |
+| student            |
+| student1           |
++--------------------+
+8 rows in set (0.02 sec)
+
+mysql> create table tab1(numid int(3));
+Query OK, 0 rows affected, 1 warning (0.16 sec)
+
+mysql> insert into tab1 values(12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tab1 values(14);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab1 values(10);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab1 values(11);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from tab1;
++-------+
+| numid |
++-------+
+|    12 |
+|    14 |
+|    10 |
+|    11 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> create table tab2(numid int(3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table tab2(numid int(3));
+Query OK, 0 rows affected, 1 warning (0.11 sec)
+
+mysql> insert into tab2 values(13);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into tab2 values(15);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into tab2 values(11);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into tab2 values(12);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from tab2;
++-------+
+| numid |
++-------+
+|    13 |
+|    15 |
+|    11 |
+|    12 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select*from tab1 inner join tab2 on tab1,numid=tab2.numid:
+    -> select*from tab1 inner join tab2 on tab1,numid=tab2.numid:^C
+mysql> select*from tab1 inner join tab2 on tab1,numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=tab2.numid' at line 1
+mysql> select*from tab2;
++-------+
+| numid |
++-------+
+|    13 |
+|    15 |
+|    11 |
+|    12 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> -- inner join
+mysql> -- only matched records from both the tables;
+mysql> select*from table1
+    -> inner join
+    -> tab2
+    -> on
+    -> tab1.numid=tab2.numid;
+ERROR 1146 (42S02): Table 'codegnan.table1' doesn't exist
+mysql> select*from tab1;
++-------+
+| numid |
++-------+
+|    12 |
+|    14 |
+|    10 |
+|    11 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select*from table1
+    -> inner join
+    -> tab2^C
+mysql> select*from tab1
+    -> inner join
+    -> on
+    -> tab1.numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on
+tab1.numid=tab2.numid' at line 3
+mysql> select*from tab1
+    -> left join
+    -> on
+    -> tab1.numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on
+tab1.numid=tab2.numid' at line 3
+mysql> select*from tab1
+    -> full join
+    -> on
+    -> tab1.numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on
+tab1.numid=tab2.numid' at line 3
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| course             |
+| course_completed   |
+| employees          |
+| events             |
+| orders             |
+| student            |
+| student1           |
+| tab1               |
+| tab2               |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> create table tab1(numid int(3));
+ERROR 1050 (42S01): Table 'tab1' already exists
+mysql> insert into tab1 values(12);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab1 values(14);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tab1 values(10);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab1 values(11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from tab1;
++-------+
+| numid |
++-------+
+|    12 |
+|    14 |
+|    10 |
+|    11 |
+|    12 |
+|    14 |
+|    10 |
+|    11 |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> create table tab2(numid int(3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table tab2(numid int(3));
+ERROR 1050 (42S01): Table 'tab2' already exists
+mysql> insert into tab2 values(13);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab2 values(15);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab2 values(11);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into tab2 values(12);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from tab2;
++-------+
+| numid |
++-------+
+|    13 |
+|    15 |
+|    11 |
+|    12 |
+|    13 |
+|    15 |
+|    11 |
+|    12 |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> select*from tab2;
++-------+
+| numid |
++-------+
+|    13 |
+|    15 |
+|    11 |
+|    12 |
+|    13 |
+|    15 |
+|    11 |
+|    12 |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> select*from tab1 inner join tab2 on tab1,numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=tab2.numid' at line 1
+mysql> select*from tab2;
++-------+
+| numid |
++-------+
+|    13 |
+|    15 |
+|    11 |
+|    12 |
+|    13 |
+|    15 |
+|    11 |
+|    12 |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> -- inner join
+mysql> -- only matched records from both the tables;
+mysql> select*from table1
+    -> inner join
+    -> ^C
+mysql> select*from tab1
+    -> inner join
+    -> on
+    -> tab1.numid=tab2.numid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on
+tab1.numid=tab2.numid' at line 3
+mysql> CREATE TABLE departments (
+    -> department_id INT PRIMARY KEY,
+    -> department_name VARCHAR(100) NOT NULL,
+    -> location VARCHAR(100),
+    -> budget DECIMAL(10, 2),
+    -> manager_name VARCHAR(100),
+    -> established_date DATE,
+    -> employee_count INT,
+    -> headquarter BOOLEAN
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO departments (department_id, department_name, location, budget, manager_name, established_date, employee_count, headquarter) VALUES
+    -> (1, 'HR', 'New York', 50000.00, 'John Doe', '2000-01-01', 15, TRUE),(2, 'Finance', 'Chicago', 75000.00, 'Jane Smith', '2005-06-15', 20, FALSE),
+    -> (3, 'Engineering', 'San Francisco', 100000.00, 'Jim Brown', '2010-09-10', 50, TRUE),
+    -> (4, 'Sales', 'Los Angeles', 60000.00, 'Jessica Green', '2012-03-20', 25, FALSE);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select*from departments;
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+| department_id | department_name | location      | budget    | manager_name  | established_date | employee_count | headquarter |
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+|             1 | HR              | New York      |  50000.00 | John Doe      | 2000-01-01       |             15 |           1 |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith    | 2005-06-15       |             20 |           0 |
+|             3 | Engineering     | San Francisco | 100000.00 | Jim Brown     | 2010-09-10       |             50 |           1 |
+|             4 | Sales           | Los Angeles   |  60000.00 | Jessica Green | 2012-03-20       |             25 |           0 |
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE employees (
+    -> employee_id INT PRIMARY KEY,
+    -> employee_name VARCHAR(100) NOT NULL,
+    -> department_id INT,
+    -> job_title VARCHAR(100),
+    -> salary DECIMAL(10, 2),
+    -> hire_date DATE,
+    -> status VARCHAR(50),
+    -> email VARCHAR(100),
+    -> FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    -> );
+ERROR 1050 (42S01): Table 'employees' already exists
+mysql> CREATE TABLE employees (
+    -> employee_id INT PRIMARY KEY,
+    -> employee_name VARCHAR(100) NOT NULL,
+    -> department_id INT,
+    -> job_title VARCHAR(100),
+    -> salary DECIMAL(10, 2),
+    -> hire_date DATE,
+    -> status VARCHAR(50),
+    -> email VARCHAR(100),
+    -> FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    -> );
+ERROR 1050 (42S01): Table 'employees' already exists
+mysql> CREATE TABLE employee(
+    -> employee_id INT PRIMARY KEY,
+    -> employee_name VARCHAR(100) NOT NULL,
+    -> department_id INT,
+    -> job_title VARCHAR(100),
+    -> salary DECIMAL(10, 2),
+    -> hire_date DATE,
+    -> status VARCHAR(50),
+    -> email VARCHAR(100),
+    -> FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO employee(employee_id, employee_name, department_id, job_title, salary, hire_date, status, email) VALUES
+    -> (101, 'Alice', 1, 'HR Manager', 60000.00, '2015-05-01', 'Active', 'alice@example.com'),
+    -> (102, 'Bob', 2, 'Financial Analyst', 65000.00, '2016-07-15', 'Active', 'bob@example.com'),
+    -> (103, 'Charlie', 2, 'Accountant', 62000.00, '2017-08-30', 'Inactive', 'charlie@example.com'),
+    -> (104, 'David', 3, 'Software Engineer', 90000.00, '2018-01-10', 'Active', 'david@example.com'),
+    -> (105, 'Eve', NULL, 'Sales Representative', 55000.00, '2019-11-25', 'Active', 'eve@example.com'); -- Eve is not assigned to any department
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select*from employee;
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+| employee_id | employee_name | department_id | job_title            | salary   | hire_date  | status   | email               |
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+|         101 | Alice         |             1 | HR Manager           | 60000.00 | 2015-05-01 | Active   | alice@example.com   |
+|         102 | Bob           |             2 | Financial Analyst    | 65000.00 | 2016-07-15 | Active   | bob@example.com     |
+|         103 | Charlie       |             2 | Accountant           | 62000.00 | 2017-08-30 | Inactive | charlie@example.com |
+|         104 | David         |             3 | Software Engineer    | 90000.00 | 2018-01-10 | Active   | david@example.com   |
+|         105 | Eve           |          NULL | Sales Representative | 55000.00 | 2019-11-25 | Active   | eve@example.com     |
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT*FROM TAB1 INNER JOIN TAB2
+    -> ON
+    -> TAB1.NUMID=TAB2.NUMID
+    ->
+    -> ^C
+mysql> SELECT*FROM TAB1 INNER JOIN TAB2
+    -> ON
+    -> TAB1.NUMID=TAB2.NUMID;
++-------+-------+
+| numid | numid |
++-------+-------+
+|    11 |    11 |
+|    11 |    11 |
+|    12 |    12 |
+|    12 |    12 |
+|    11 |    11 |
+|    11 |    11 |
+|    12 |    12 |
+|    12 |    12 |
++-------+-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT*FROM TAB1 LEFT JOIN TAB2
+    -> ON
+    -> TAB1.NUMID=TAB2.NUMID
+    -> TAB1.NUMID=TAB2.NUMID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TAB1.NUMID=TAB2.NUMID' at line 4
+mysql> SELECT*FROM TAB1 LEFT JOIN TAB2
+    -> ON
+    -> TAB1.NUMID=TAB2.NUMID;
++-------+-------+
+| numid | numid |
++-------+-------+
+|    12 |    12 |
+|    12 |    12 |
+|    14 |  NULL |
+|    10 |  NULL |
+|    11 |    11 |
+|    11 |    11 |
+|    12 |    12 |
+|    12 |    12 |
+|    14 |  NULL |
+|    10 |  NULL |
+|    11 |    11 |
+|    11 |    11 |
++-------+-------+
+12 rows in set (0.00 sec)
+
+mysql> use sys;
+Database changed
+mysql> drop sys;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sys' at line 1
+mysql> drop database sys;
+Query OK, 101 rows affected (0.24 sec)
+
+mysql> create database sys;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use sys;
+Database changed
+mysql> select*from departments;
+ERROR 1146 (42S02): Table 'sys.departments' doesn't exist
+mysql> CREATE TABLE departments (
+    -> department_id INT PRIMARY KEY,
+    -> department_name VARCHAR(100) NOT NULL,
+    -> location VARCHAR(100),
+    -> budget DECIMAL(10, 2),
+    -> manager_name VARCHAR(100),
+    -> established_date DATE,
+    -> employee_count INT,
+    -> headquarter BOOLEAN
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select*from departments;
+Empty set (0.01 sec)
+
+mysql> Select*from departments;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO employee(employee_id, employee_name, department_id, job_title, salary, hire_date, status, email) VALUES
+    -> (101, 'Alice', 1, 'HR Manager', 60000.00, '2015-05-01', 'Active', 'alice@example.com'),
+    -> (102, 'Bob', 2, 'Financial Analyst', 65000.00, '2016-07-15', 'Active', 'bob@example.com'),
+    -> (103, 'Charlie', 2, 'Accountant', 62000.00, '2017-08-30', 'Inactive', 'charlie@example.com'),
+    -> (104, 'David', 3, 'Software Engineer', 90000.00, '2018-01-10', 'Active', 'david@example.com'),
+    -> (105, 'Eve', NULL, 'Sales Representative', 55000.00, '2019-11-25', 'Active', 'eve@example.com'); -- Eve is not assigned to any department
+ERROR 1146 (42S02): Table 'sys.employee' doesn't exist
+mysql> select*from employee;
+ERROR 1146 (42S02): Table 'sys.employee' doesn't exist
+mysql> (105, 'Eve', NULL, 'Sales Representative', 55000.00, '2019-11-25', 'Active', 'eve@example.com'); -- Eve is not assigned to any department
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '105, 'Eve', NULL, 'Sales Representative', 55000.00, '2019-11-25', 'Active', 'eve' at line 1
+mysql>  CREATE TABLE departments (
+    ->     -> department_id INT PRIMARY KEY,
+    ->     -> department_name VARCHAR(100) NOT NULL,
+    ->     -> location VARCHAR(100),
+    ->     -> budget DECIMAL(10, 2),
+    ->     -> manager_name VARCHAR(100),
+    ->     -> established_date DATE,
+    ->     -> employee_count INT,
+    ->     -> headquarter BOOLEAN
+    ->     -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> department_id INT PRIMARY KEY,
+    -> department_name VARCHAR(100) NOT NULL,
+' at line 2
+mysql> CREATE TABLE departments (
+    -> department_id INT PRIMARY KEY,
+    -> department_name VARCHAR(100) NOT NULL,
+    -> location VARCHAR(100),
+    -> budget DECIMAL(10, 2),
+    -> manager_name VARCHAR(100),
+    -> established_date DATE,
+    -> employee_count INT,
+    -> headquarter BOOLEAN
+    -> );
+ERROR 1050 (42S01): Table 'departments' already exists
+mysql> INSERT INTO departments (department_id, department_name, location, budget, manager_name, established_date, employee_count, headquarter) VALUES
+    -> (1, 'HR', 'New York', 50000.00, 'John Doe', '2000-01-01', 15, TRUE),
+    -> (2, 'Finance', 'Chicago', 75000.00, 'Jane Smith', '2005-06-15', 20, FALSE),
+    -> (3, 'Engineering', 'San Francisco', 100000.00, 'Jim Brown', '2010-09-10', 50, TRUE),
+    -> (4, 'Sales', 'Los Angeles', 60000.00, 'Jessica Green', '2012-03-20', 25, FALSE);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> Select*from departments;
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+| department_id | department_name | location      | budget    | manager_name  | established_date | employee_count | headquarter |
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+|             1 | HR              | New York      |  50000.00 | John Doe      | 2000-01-01       |             15 |           1 |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith    | 2005-06-15       |             20 |           0 |
+|             3 | Engineering     | San Francisco | 100000.00 | Jim Brown     | 2010-09-10       |             50 |           1 |
+|             4 | Sales           | Los Angeles   |  60000.00 | Jessica Green | 2012-03-20       |             25 |           0 |
++---------------+-----------------+---------------+-----------+---------------+------------------+----------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE employees (
+    -> employee_id INT PRIMARY KEY,
+    -> employee_name VARCHAR(100) NOT NULL,
+    -> department_id INT,
+    -> job_title VARCHAR(100),
+    -> salary DECIMAL(10, 2),
+    -> hire_date DATE,
+    -> status VARCHAR(50),
+    -> email VARCHAR(100),
+    -> FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> INSERT INTO employees (employee_id, employee_name, department_id, job_title, salary, hire_date, status, email) VALUES
+    -> (101, 'Alice', 1, 'HR Manager', 60000.00, '2015-05-01', 'Active', 'alice@example.com'),
+    -> (102, 'Bob', 2, 'Financial Analyst', 65000.00, '2016-07-15', 'Active', 'bob@example.com'),
+    -> (103, 'Charlie', 2, 'Accountant', 62000.00, '2017-08-30', 'Inactive', 'charlie@example.com'),
+    -> (104, 'David', 3, 'Software Engineer', 90000.00, '2018-01-10', 'Active', 'david@example.com'),
+    -> (105, 'Eve', NULL, 'Sales Representative', 55000.00, '2019-11-25', 'Active', 'eve@example.com');
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> Select*from employees;
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+| employee_id | employee_name | department_id | job_title            | salary   | hire_date  | status   | email               |
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+|         101 | Alice         |             1 | HR Manager           | 60000.00 | 2015-05-01 | Active   | alice@example.com   |
+|         102 | Bob           |             2 | Financial Analyst    | 65000.00 | 2016-07-15 | Active   | bob@example.com     |
+|         103 | Charlie       |             2 | Accountant           | 62000.00 | 2017-08-30 | Inactive | charlie@example.com |
+|         104 | David         |             3 | Software Engineer    | 90000.00 | 2018-01-10 | Active   | david@example.com   |
+|         105 | Eve           |          NULL | Sales Representative | 55000.00 | 2019-11-25 | Active   | eve@example.com     |
++-------------+---------------+---------------+----------------------+----------+------------+----------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from departments
+    -> inner join
+    -> employees
+    -> on
+    -> departments.department_id=employees.department_id;
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+| department_id | department_name | location      | budget    | manager_name | established_date | employee_count | headquarter | employee_id | employee_name | department_id | job_title         | salary   | hire_date  | status   | email               |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+|             1 | HR              | New York      |  50000.00 | John Doe     | 2000-01-01       |             15 |           1 |         101 | Alice         |             1 | HR Manager        | 60000.00 | 2015-05-01 | Active   | alice@example.com   |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         102 | Bob           |             2 | Financial Analyst | 65000.00 | 2016-07-15 | Active   | bob@example.com     |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         103 | Charlie       |             2 | Accountant        | 62000.00 | 2017-08-30 | Inactive | charlie@example.com |
+|             3 | Engineering     | San Francisco | 100000.00 | Jim Brown    | 2010-09-10       |             50 |           1 |         104 | David         |             3 | Software Engineer | 90000.00 | 2018-01-10 | Active   | david@example.com   |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select*from departments
+    -> inner join
+    -> employees
+    -> on
+    -> departments.department_id=employees.department_id;
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+| department_id | department_name | location      | budget    | manager_name | established_date | employee_count | headquarter | employee_id | employee_name | department_id | job_title         | salary   | hire_date  | status   | email               |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+|             1 | HR              | New York      |  50000.00 | John Doe     | 2000-01-01       |             15 |           1 |         101 | Alice         |             1 | HR Manager        | 60000.00 | 2015-05-01 | Active   | alice@example.com   |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         102 | Bob           |             2 | Financial Analyst | 65000.00 | 2016-07-15 | Active   | bob@example.com     |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         103 | Charlie       |             2 | Accountant        | 62000.00 | 2017-08-30 | Inactive | charlie@example.com |
+|             3 | Engineering     | San Francisco | 100000.00 | Jim Brown    | 2010-09-10       |             50 |           1 |         104 | David         |             3 | Software Engineer | 90000.00 | 2018-01-10 | Active   | david@example.com   |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select*from departments
+    -> inner join
+    -> employees
+    -> on
+    -> departments.department_id=employees.department_id;
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+| department_id | department_name | location      | budget    | manager_name | established_date | employee_count | headquarter | employee_id | employee_name | department_id | job_title         | salary   | hire_date  | status   | email               |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+|             1 | HR              | New York      |  50000.00 | John Doe     | 2000-01-01       |             15 |           1 |         101 | Alice         |             1 | HR Manager        | 60000.00 | 2015-05-01 | Active   | alice@example.com   |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         102 | Bob           |             2 | Financial Analyst | 65000.00 | 2016-07-15 | Active   | bob@example.com     |
+|             2 | Finance         | Chicago       |  75000.00 | Jane Smith   | 2005-06-15       |             20 |           0 |         103 | Charlie       |             2 | Accountant        | 62000.00 | 2017-08-30 | Inactive | charlie@example.com |
+|             3 | Engineering     | San Francisco | 100000.00 | Jim Brown    | 2010-09-10       |             50 |           1 |         104 | David         |             3 | Software Engineer | 90000.00 | 2018-01-10 | Active   | david@example.com   |
++---------------+-----------------+---------------+-----------+--------------+------------------+----------------+-------------+-------------+---------------+---------------+-------------------+----------+------------+----------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select e.employee_id,e.employee_name,d.department_name
+    -> from employees e
+    -> inner join \
+    -> ^C
+mysql> select e.employee_id,e.employee_name,d.department_name
+    -> from employees e
+    -> inner join
+    -> department d
+    -> on
+    -> e.department_id=d.department_id;
+ERROR 1146 (42S02): Table 'sys.department' doesn't exist
+mysql> select e.employee_id,e.employee_name,d.department_name
+    -> ^C
+mysql>
+mysql>
+mysql>
+mysql> select e.employee_id,e.employee_name,d.department_name,d.budget
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.department_id=d.department_id;
++-------------+---------------+-----------------+-----------+
+| employee_id | employee_name | department_name | budget    |
++-------------+---------------+-----------------+-----------+
+|         101 | Alice         | HR              |  50000.00 |
+|         102 | Bob           | Finance         |  75000.00 |
+|         103 | Charlie       | Finance         |  75000.00 |
+|         104 | David         | Engineering     | 100000.00 |
++-------------+---------------+-----------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select e.employee_id,e.employee_name,e.job_title,d.loaction
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.departments_id=d.department_id:
+    -> ^C
+mysql> select e.employee_id,e.employee_name,e.job_title,d.loaction
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.departments_id=d.department_id;
+ERROR 1054 (42S22): Unknown column 'd.loaction' in 'field list'
+mysql> select e.employee_id,e.employee_name,d.department_name
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.department_id=d.department_id;
++-------------+---------------+-----------------+
+| employee_id | employee_name | department_name |
++-------------+---------------+-----------------+
+|         101 | Alice         | HR              |
+|         102 | Bob           | Finance         |
+|         103 | Charlie       | Finance         |
+|         104 | David         | Engineering     |
++-------------+---------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select e.employee_id,e.employee_name,d.department_name,d.budget
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.department_id=d.department_id;
++-------------+---------------+-----------------+-----------+
+| employee_id | employee_name | department_name | budget    |
++-------------+---------------+-----------------+-----------+
+|         101 | Alice         | HR              |  50000.00 |
+|         102 | Bob           | Finance         |  75000.00 |
+|         103 | Charlie       | Finance         |  75000.00 |
+|         104 | David         | Engineering     | 100000.00 |
++-------------+---------------+-----------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select e.employee_id,e.employee_name,e.job_title,d.location
+    -> from employees e
+    -> inner join
+    -> departments d
+    -> on
+    -> e.department_id=d.department_id;
++-------------+---------------+-------------------+---------------+
+| employee_id | employee_name | job_title         | location      |
++-------------+---------------+-------------------+---------------+
+|         101 | Alice         | HR Manager        | New York      |
+|         102 | Bob           | Financial Analyst | Chicago       |
+|         103 | Charlie       | Accountant        | Chicago       |
+|         104 | David         | Software Engineer | San Francisco |
++-------------+---------------+-------------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> e.department_id=d.department_id;

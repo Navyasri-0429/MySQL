@@ -1,0 +1,239 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.12 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| employees          |
+| orders             |
++--------------------+
+3 rows in set (0.03 sec)
+
+mysql> select*from employees;
++-------------+---------------+------+----------+------------+---------------------+
+| employee_id | full_name     | age  | salary   | hire_data  | last_promotion      |
++-------------+---------------+------+----------+------------+---------------------+
+|           1 | John Doe      |   28 | 55000.00 | 0202-01-15 | 2024-07-30 15:24:08 |
+|           2 | Jane Smith    |   34 | 62000.50 | 2018-06-23 | 2024-07-30 15:24:08 |
+|           3 | Emily Davis   |   29 | 47000.25 | 2021-03-12 | 2024-07-30 15:24:08 |
+|           4 | Michael Brown |   45 | 73000.75 | 2017-11-05 | 2024-07-30 15:24:08 |
++-------------+---------------+------+----------+------------+---------------------+
+4 rows in set (0.09 sec)
+
+mysql> --- insert
+    -> ^C
+mysql> select full_name,insert(full_name,1,4 'Ms/Mr') as position insert from employees;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Ms/Mr') as position insert from employees' at line 1
+mysql> select full_name,insert(full_name,1,4,'Ms/Mr') as position insert from employees;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert from employees' at line 1
+mysql> select full_name,insert(full_name,1,4,'Mr/Ms') as position_insert from employees;
++---------------+-----------------+
+| full_name     | position_insert |
++---------------+-----------------+
+| John Doe      | Mr/Ms Doe       |
+| Jane Smith    | Mr/Ms Smith     |
+| Emily Davis   | Mr/Msy Davis    |
+| Michael Brown | Mr/Msael Brown  |
++---------------+-----------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name, ucas(full_name) as lcase from employees;
+ERROR 1305 (42000): FUNCTION codegnan.ucas does not exist
+mysql> select full_name, lcase(full_name) as lcase from employees;
++---------------+---------------+
+| full_name     | lcase         |
++---------------+---------------+
+| John Doe      | john doe      |
+| Jane Smith    | jane smith    |
+| Emily Davis   | emily davis   |
+| Michael Brown | michael brown |
++---------------+---------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name, ucase(full_name) as lcase from employees;
++---------------+---------------+
+| full_name     | lcase         |
++---------------+---------------+
+| John Doe      | JOHN DOE      |
+| Jane Smith    | JANE SMITH    |
+| Emily Davis   | EMILY DAVIS   |
+| Michael Brown | MICHAEL BROWN |
++---------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name, lpad(full_name,20,'*') as lpad from employees;
++---------------+----------------------+
+| full_name     | lpad                 |
++---------------+----------------------+
+| John Doe      | ************John Doe |
+| Jane Smith    | **********Jane Smith |
+| Emily Davis   | *********Emily Davis |
+| Michael Brown | *******Michael Brown |
++---------------+----------------------+
+4 rows in set (0.01 sec)
+
+mysql> select full_name, rpad(full_name,20,'*') as lpad from employees;
++---------------+----------------------+
+| full_name     | lpad                 |
++---------------+----------------------+
+| John Doe      | John Doe************ |
+| Jane Smith    | Jane Smith********** |
+| Emily Davis   | Emily Davis********* |
+| Michael Brown | Michael Brown******* |
++---------------+----------------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name, trim(full_name)trimposition from employees;
++---------------+---------------+
+| full_name     | trimposition  |
++---------------+---------------+
+| John Doe      | John Doe      |
+| Jane Smith    | Jane Smith    |
+| Emily Davis   | Emily Davis   |
+| Michael Brown | Michael Brown |
++---------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name, substr(full_name,1,4) as substring from employees;
++---------------+-----------+
+| full_name     | substring |
++---------------+-----------+
+| John Doe      | John      |
+| Jane Smith    | Jane      |
+| Emily Davis   | Emil      |
+| Michael Brown | Mich      |
++---------------+-----------+
+4 rows in set (0.00 sec)
+mysql> select full_name, reverse(full_name) as reverse_name from employees;
++---------------+---------------+
+| full_name     | reverse_name  |
++---------------+---------------+
+| John Doe      | eoD nhoJ      |
+| Jane Smith    | htimS enaJ    |
+| Emily Davis   | sivaD ylimE   |
+| Michael Brown | nworB leahciM |
++---------------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> select*from employees;
++-------------+---------------+------+----------+------------+---------------------+
+| employee_id | full_name     | age  | salary   | hire_data  | last_promotion      |
++-------------+---------------+------+----------+------------+---------------------+
+|           1 | John Doe      |   28 | 55000.00 | 0202-01-15 | 2024-07-30 15:24:08 |
+|           2 | Jane Smith    |   34 | 62000.50 | 2018-06-23 | 2024-07-30 15:24:08 |
+|           3 | Emily Davis   |   29 | 47000.25 | 2021-03-12 | 2024-07-30 15:24:08 |
+|           4 | Michael Brown |   45 | 73000.75 | 2017-11-05 | 2024-07-30 15:24:08 |
++-------------+---------------+------+----------+------------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary from employees;
++----------------+
+| average_salary |
++----------------+
+|   59250.375000 |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> select full_name,CEIL(salary) as celing_salary from employees;
++---------------+---------------+
+| full_name     | celing_salary |
++---------------+---------------+
+| John Doe      |         55000 |
+| Jane Smith    |         62001 |
+| Emily Davis   |         47001 |
+| Michael Brown |         73001 |
++---------------+---------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name,floor(salary) as celing_salary from employees;
++---------------+---------------+
+| full_name     | celing_salary |
++---------------+---------------+
+| John Doe      |         55000 |
+| Jane Smith    |         62000 |
+| Emily Davis   |         47000 |
+| Michael Brown |         73000 |
++---------------+---------------+
+4 rows in set (0.05 sec)
+
+mysql> select count(*) from employees;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.06 sec)
+
+mysql> -- greatest
+mysql> select full_name,greatest(salary,60000) as greatest_salary from employees;
++---------------+-----------------+
+| full_name     | greatest_salary |
++---------------+-----------------+
+| John Doe      |        60000.00 |
+| Jane Smith    |        62000.50 |
+| Emily Davis   |        60000.00 |
+| Michael Brown |        73000.75 |
++---------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,least(salary,60000) as greatest_salary from employees;
++---------------+-----------------+
+| full_name     | greatest_salary |
++---------------+-----------------+
+| John Doe      |        55000.00 |
+| Jane Smith    |        60000.00 |
+| Emily Davis   |        47000.25 |
+| Michael Brown |        60000.00 |
++---------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select max(salary) as max_salary from employees;
++------------+
+| max_salary |
++------------+
+|   73000.75 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) as min_salary from employees;
++------------+
+| min_salary |
++------------+
+|   47000.25 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) as total_Salary from employees;
++--------------+
+| total_Salary |
++--------------+
+|    237001.50 |
++--------------+
+1 row in set (0.00 sec)

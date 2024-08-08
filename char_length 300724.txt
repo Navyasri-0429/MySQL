@@ -1,0 +1,472 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 53
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| orders             |
++--------------------+
+2 rows in set (0.06 sec)
+
+mysql> select*from orders;
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
+|        6 |         106 | 2023-08-29 |       400.00 | 209 codegnan hyd              | pending        | null            |
+|        7 |         107 | 2002-04-29 |       900.00 | 230 codegnan hyd              | paid           | not null        |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> --%
+    -> ^C
+mysql> select*from orders where shipping_address like'%st%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+5 rows in set (0.01 sec)
+
+mysql> select*from orders where total_amount like '%.00%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
+|        6 |         106 | 2023-08-29 |       400.00 | 209 codegnan hyd              | pending        | null            |
+|        7 |         107 | 2002-04-29 |       900.00 | 230 codegnan hyd              | paid           | not null        |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select*from orders where total_amount like ' __.50';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like ' __.75';
+Empty set (0.00 sec)
+
+mysql> select*from orders where shipping_address like'%st%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from orders where total_amount like ' __.75';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like ' __._0';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like'_._5';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like '%.00%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
+|        6 |         106 | 2023-08-29 |       400.00 | 209 codegnan hyd              | pending        | null            |
+|        7 |         107 | 2002-04-29 |       900.00 | 230 codegnan hyd              | paid           | not null        |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| orders             |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select*from orders;
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
+|        6 |         106 | 2023-08-29 |       400.00 | 209 codegnan hyd              | pending        | null            |
+|        7 |         107 | 2002-04-29 |       900.00 | 230 codegnan hyd              | paid           | not null        |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> select*from orders where shipping_address like'%st%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from orders where total_amount like ' __.75';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like '_ _.75';
+Empty set (0.00 sec)
+
+mysql> select*from orders where shipping_address like'%st%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa    | paid           | delivered       |
+|        3 |         103 | 2023-02-15 |        90.17 | 789 oka st, bigcity, usa      | pending        | in progress     |
+|        4 |         104 | 2023-04-14 |       260.75 | 101 pine st, hometown, usa    | paid           | delivered       |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from orders where total_amount like '%.00%';
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address              | payment_status | delivery_status |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+|        1 |         101 | 2023-01-05 |       140.00 | 123 main st, anytown, usa     | paid           | shipped         |
+|        5 |         105 | 2023-06-08 |       170.00 | 202 cedar st, farawaytown usa | paid           | shipped         |
+|        6 |         106 | 2023-08-29 |       400.00 | 209 codegnan hyd              | pending        | null            |
+|        7 |         107 | 2002-04-29 |       900.00 | 230 codegnan hyd              | paid           | not null        |
++----------+-------------+------------+--------------+-------------------------------+----------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select*from orders where total_amount like '%.50';
+Empty set (0.00 sec)
+
+mysql> select*from orders where total_amount like '__.75';
++----------+-------------+------------+--------------+----------------------------+----------------+-----------------+
+| order_id | customer_id | order_date | total_amount | shipping_address           | payment_status | delivery_status |
++----------+-------------+------------+--------------+----------------------------+----------------+-----------------+
+|        2 |         102 | 2023-01-10 |        31.75 | 456 elm st, smalltown, usa | paid           | delivered       |
++----------+-------------+------------+--------------+----------------------------+----------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> select*from orders where total_amount like '__._0';
+Empty set (0.00 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT,
+    -> ^C
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,' at line 1
+    -> CREATE TABLE employees(employee_id INT AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion^CIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10, 2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,' at line 1
+    -> CREATE TABLE employees(employee_id INT AUTO_INCREMEANT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10, 2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_^C
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+Query OK, 0 rows affected (0.09 sec)
+
+    -> ^C
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+ERROR 1050 (42S01): Table 'employees' already exists
+    -> CREATE TABLE employees(employee_id INT AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '_
+CREATE TABLE employees(employee_id INT AUTO_INCREMENT PRIMARY KEY, full_name V' at line 1
+    -> ^C
+mysql> CREATE TABLE employees(employee_id INT AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(100), age INT, salary DECIMAL(10,2), hire_data DATE, last_promotion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);_
+ERROR 1050 (42S01): Table 'employees' already exists
+    -> ^C
+mysql> DESC EMPLOYEEES;
+ERROR 1146 (42S02): Table 'codegnan.employeees' doesn't exist
+mysql> DESC EMPLOYEES;
++----------------+---------------+------+-----+-------------------+-------------------+
+| Field          | Type          | Null | Key | Default           | Extra             |
++----------------+---------------+------+-----+-------------------+-------------------+
+| employee_id    | int           | NO   | PRI | NULL              | auto_increment    |
+| full_name      | varchar(100)  | YES  |     | NULL              |                   |
+| age            | int           | YES  |     | NULL              |                   |
+| salary         | decimal(10,2) | YES  |     | NULL              |                   |
+| hire_data      | date          | YES  |     | NULL              |                   |
+| last_promotion | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++----------------+---------------+------+-----+-------------------+-------------------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO employess (full_name, age, salary, hire_data) VALUES('jhon doe', 28, 55000.00, '2020-01-15'), ('jane smith', 34, 62000.50, '2018-06-23'), ('emily davis', 29, 47000.25, '2021-03-12'), ('michael brown', 45, 73000.74, '2017-11-05');
+ERROR 1146 (42S02): Table 'codegnan.employess' doesn't exist
+mysql> INSERT INTO EMPLOYEES (full_name,age,salary,hire_date) Values
+    -> ('John Doe',28,55000.00,'202-01-15'),
+    -> ('Jane Smith',34,62000.50,'2018-06-23'),
+    ->  ('Emily Davis',29,47000.25,'2021-03-12'),
+    ->  ('Emily Davis',29,47000.25,'2021-03-12'),^C
+mysql> DESC EMPLOYEES;
++----------------+---------------+------+-----+-------------------+-------------------+
+| Field          | Type          | Null | Key | Default           | Extra             |
++----------------+---------------+------+-----+-------------------+-------------------+
+| employee_id    | int           | NO   | PRI | NULL              | auto_increment    |
+| full_name      | varchar(100)  | YES  |     | NULL              |                   |
+| age            | int           | YES  |     | NULL              |                   |
+| salary         | decimal(10,2) | YES  |     | NULL              |                   |
+| hire_data      | date          | YES  |     | NULL              |                   |
+| last_promotion | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++----------------+---------------+------+-----+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES (full_name,age,salary,hire_date) Values
+    -> ('John Doe',28,55000.00,'202-01-15'),
+    -> ('Jane Smith',34,62000.50,'2018-06-23'),
+    -> ('Emily Davis',29,47000.25,'2021-03-12'),
+    -> ('Michael Brown',45,73000.75,'2017-11-05');
+ERROR 1054 (42S22): Unknown column 'hire_date' in 'field list'
+mysql> INSERT INTO EMPLOYEES (full_name,age,salary,hire_data) Values
+    -> ('John Doe',28,55000.00,'202-01-15'),
+    -> ('Jane Smith',34,62000.50,'2018-06-23'),
+    ->  ('Emily Davis',29,47000.25,'2021-03-12'),
+    -> ^C
+mysql> DESC EMPLOYEES;
++----------------+---------------+------+-----+-------------------+-------------------+
+| Field          | Type          | Null | Key | Default           | Extra             |
++----------------+---------------+------+-----+-------------------+-------------------+
+| employee_id    | int           | NO   | PRI | NULL              | auto_increment    |
+| full_name      | varchar(100)  | YES  |     | NULL              |                   |
+| age            | int           | YES  |     | NULL              |                   |
+| salary         | decimal(10,2) | YES  |     | NULL              |                   |
+| hire_data      | date          | YES  |     | NULL              |                   |
+| last_promotion | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++----------------+---------------+------+-----+-------------------+-------------------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEES (full_name,age,salary,hire_data) Values
+    -> ('John Doe',28,55000.00,'202-01-15'),
+    -> ('Jane Smith',34,62000.50,'2018-06-23'),
+    -> ('Emily Davis',29,47000.25,'2021-03-12'),
+    -> ('Michael Brown',45,73000.75,'2017-11-05');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------------+---------------+------+----------+------------+---------------------+
+| employee_id | full_name     | age  | salary   | hire_data  | last_promotion      |
++-------------+---------------+------+----------+------------+---------------------+
+|           1 | John Doe      |   28 | 55000.00 | 0202-01-15 | 2024-07-30 15:24:08 |
+|           2 | Jane Smith    |   34 | 62000.50 | 2018-06-23 | 2024-07-30 15:24:08 |
+|           3 | Emily Davis   |   29 | 47000.25 | 2021-03-12 | 2024-07-30 15:24:08 |
+|           4 | Michael Brown |   45 | 73000.75 | 2017-11-05 | 2024-07-30 15:24:08 |
++-------------+---------------+------+----------+------------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name, ASCIIS(SUBSTRING(full_name,1,2))AS ASCII_VALUE FROM EMPLOYEES;
+ERROR 1305 (42000): FUNCTION codegnan.ASCIIS does not exist
+mysql> select full_name, ASCII(SUBSTRING(full_name,1,2))AS ASCII_VALUE FROM EMPLOYEES;
++---------------+-------------+
+| full_name     | ASCII_VALUE |
++---------------+-------------+
+| John Doe      |          74 |
+| Jane Smith    |          74 |
+| Emily Davis   |          69 |
+| Michael Brown |          77 |
++---------------+-------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name, ASCII(SUBSTRING(full_name,2,2))AS ASCII_VALUE FROM EMPLOYEES;
++---------------+-------------+
+| full_name     | ASCII_VALUE |
++---------------+-------------+
+| John Doe      |         111 |
+| Jane Smith    |          97 |
+| Emily Davis   |         109 |
+| Michael Brown |         105 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT FULL_NAME, CHAR_LENGTH(FULL_NAME) AS CHAR_LENGTH FROM EMPLOYEES;
++---------------+-------------+
+| FULL_NAME     | CHAR_LENGTH |
++---------------+-------------+
+| John Doe      |           8 |
+| Jane Smith    |          10 |
+| Emily Davis   |          11 |
+| Michael Brown |          13 |
++---------------+-------------+
+4 rows in set (0.05 sec)
+
+mysql> select full_name,concat(full_name,'-',age,'years old') as description from employees;
++---------------+---------------------------+
+| full_name     | description               |
++---------------+---------------------------+
+| John Doe      | John Doe-28years old      |
+| Jane Smith    | Jane Smith-34years old    |
+| Emily Davis   | Emily Davis-29years old   |
+| Michael Brown | Michael Brown-45years old |
++---------------+---------------------------+
+4 rows in set (0.01 sec)
+
+mysql> select full_name,concat(full_name,age,'years old') as description from employees;
++---------------+--------------------------+
+| full_name     | description              |
++---------------+--------------------------+
+| John Doe      | John Doe28years old      |
+| Jane Smith    | Jane Smith34years old    |
+| Emily Davis   | Emily Davis29years old   |
+| Michael Brown | Michael Brown45years old |
++---------------+--------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,concat(full_name,age) as description from employees;
++---------------+-----------------+
+| full_name     | description     |
++---------------+-----------------+
+| John Doe      | John Doe28      |
+| Jane Smith    | Jane Smith34    |
+| Emily Davis   | Emily Davis29   |
+| Michael Brown | Michael Brown45 |
++---------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,concat_ws(',',full_name,age,format(salary,2)) as description from employees;
++---------------+----------------------------+
+| full_name     | description                |
++---------------+----------------------------+
+| John Doe      | John Doe,28,55,000.00      |
+| Jane Smith    | Jane Smith,34,62,000.50    |
+| Emily Davis   | Emily Davis,29,47,000.25   |
+| Michael Brown | Michael Brown,45,73,000.75 |
++---------------+----------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Jane Smith, Emily Davis, Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           2 |
+| Emily Davis   |           0 |
+| Michael Brown |           0 |
++---------------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Emily Davis,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           2 |
+| Michael Brown |           3 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           0 |
+| Michael Brown |           2 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Jane Smith, Emily Davis, Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           2 |
+| Emily Davis   |           0 |
+| Michael Brown |           0 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Emily Davis,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           2 |
+| Michael Brown |           3 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql>mysql> select full_name,find_in_set(full_name,'Jhon Doe,Emily Davis,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           2 |
+| Michael Brown |           3 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> find_in_set
+    -> ^C
+mysql> -- find_in_set
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Emily Davis,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           2 |
+| Michael Brown |           3 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+ select full_name,find_in_set(full_name,'Jhon Doe,Michael Brown') as description from employees;
++---------------+-------------+
+| full_name     | description |
++---------------+-------------+
+| John Doe      |           0 |
+| Jane Smith    |           0 |
+| Emily Davis   |           0 |
+| Michael Brown |           2 |
++---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select full_name,find_in_set(full_name,'Jhon Doe,Michael Brown') as position from employees;
++---------------+----------+
+| full_name     | position |
++---------------+----------+
+| John Doe      |        0 |
+| Jane Smith    |        0 |
+| Emily Davis   |        0 |
+| Michael Brown |        2 |
++---------------+----------+
+4 rows in set (0.00 sec)

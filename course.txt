@@ -1,0 +1,394 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 34
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
+| employees          |
+| events             |
+| orders             |
+| student            |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> desc student;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| student_id      | int          | NO   | PRI | NULL    | auto_increment |
+| first_name      | varchar(50)  | YES  |     | NULL    |                |
+| last_name       | varchar(50)  | YES  |     | NULL    |                |
+| email           | varchar(100) | YES  |     | NULL    |                |
+| grade           | decimal(5,2) | YES  |     | NULL    |                |
+| enrollment_date | date         | YES  |     | NULL    |                |
+| phone_number    | varchar(15)  | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> select*from student;
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          3 | Emily      | Johnson   | emily.johnson@example.com    | 78.00 | 2024-02-01      | NULL         |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from student where grade>85;
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                  | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com   | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com | 92.00 | 2024-01-15      | 555-0102     |
+|          5 | Anna       | Brown     | anna.brown@example.com | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select*from student where enrollment_date>='2024-02-01';
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                     | grade | enrollment_date | phone_number |
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+|          3 | Emily      | Johnson   | emily.johnson@example.com | 78.00 | 2024-02-01      | NULL         |
+|          5 | Anna       | Brown     | anna.brown@example.com    | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+2 rows in set (0.05 sec)
+
+mysql> select*from student where email='%@example.com';
+Empty set (0.00 sec)
+
+mysql> select*from student where email like '%@example.com';
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          3 | Emily      | Johnson   | emily.johnson@example.com    | 78.00 | 2024-02-01      | NULL         |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from student where email like '%brown@example.com';
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                  | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+|          5 | Anna       | Brown     | anna.brown@example.com | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select*from student where email like '%jhonson@example.com';
+Empty set (0.00 sec)
+
+mysql> select * from student where grade>=85 and enrollment_date<'2024-2-01';
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where grade>85 and enrollment_date<'2024-2-01';
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                  | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com   | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com | 92.00 | 2024-01-15      | 555-0102     |
++------------+------------+-----------+------------------------+-------+-----------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select*from student where phone_number is null;
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                     | grade | enrollment_date | phone_number |
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+|          3 | Emily      | Johnson   | emily.johnson@example.com | 78.00 | 2024-02-01      | NULL         |
++------------+------------+-----------+---------------------------+-------+-----------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select*from student where phone_number is not  null;
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>mysql> select*from student where phone_number is not  null;
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select substring_index(email,'@',-1) as email_domain,count(*) as student_count from student group by email;
++--------------+---------------+t |
+| email_domain | student_count |--+
++--------------+---------------+1 |
+| example.com  |             1 |1 |
+| example.com  |             1 |1 |
+| example.com  |             1 |1 |
+| example.com  |             1 |1 |
+| example.com  |             1 |--+
++--------------+---------------+
+5 rows in set (0.00 sec)
+mysql> select month(enrollment_date)as month,count(*) as student_count from student group by month(enrollment_date);
+mysql> -+---------------+
+| month | student_count |
++-------+---------------+
+|     1 |             3 |
+|     2 |             2 |
++-------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select grade,enrollment_date,count(*) as student_count from student group by grade, enrollment_date;
++-------+-----------------+---------------+
+| grade | enrollment_date | student_count |
++-------+-----------------+---------------+
+| 88.50 | 2024-01-10      |             1 |
+| 92.00 | 2024-01-15      |             1 |
+| 78.00 | 2024-02-01      |             1 |
+| 85.00 | 2024-01-20      |             1 |
+| 95.00 | 2024-02-05      |             1 |
++-------+-----------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select grade,enrollment_date,count(*) as student_count from student group by grade, enrollment_date;*c
++-------+-----------------+---------------+
+| grade | enrollment_date | student_count |
++-------+-----------------+---------------+
+| 88.50 | 2024-01-10      |             1 |
+| 92.00 | 2024-01-15      |             1 |
+| 78.00 | 2024-02-01      |             1 |
+| 85.00 | 2024-01-20      |             1 |
+| 95.00 | 2024-02-05      |             1 |
++-------+-----------------+---------------+
+5 rows in set (0.00 sec)
+
+    -> ^C
+mysql> select grade,enrollment_date,count(*) as student_count from student group by grade, enrollment_date;^c
++-------+-----------------+---------------+
+| grade | enrollment_date | student_count |
++-------+-----------------+---------------+
+| 88.50 | 2024-01-10      |             1 |
+| 92.00 | 2024-01-15      |             1 |
+| 78.00 | 2024-02-01      |             1 |
+| 85.00 | 2024-01-20      |             1 |
+| 95.00 | 2024-02-05      |             1 |
++-------+-----------------+---------------+
+5 rows in set (0.00 sec)
+
+    -> select grade,enrollment_date,count(*) as student_count from student group by grade, enrollment_date;^c^C
+mysql> select substring_index(email,'0',-1) as email_domain,count(*) as student_count from student group by email;
++------------------------------+---------------+
+| email_domain                 | student_count |
++------------------------------+---------------+
+| john.doe@example.com         |             1 |
+| jane.smith@example.com       |             1 |
+| emily.johnson@example.com    |             1 |
+| michael.williams@example.com |             1 |
+| anna.brown@example.com       |             1 |
++------------------------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql>
++-------+-----------------+---------------+
+| grade | enrollment_date | student_count |
++-------+-----------------+---------------+
+| 88.50 | 2024-01-10      |             1 |
+| 92.00 | 2024-01-15      |             1 |
+| 78.00 | 2024-02-01      |             1 |
+| 85.00 | 2024-01-20      |             1 |
+| 95.00 | 2024-02-05      |             1 |
++-------+-----------------+---------------+
+5 rows in set (0.00 sec)
+
+    -> select grade,enrollment_date,count(*) as student_count from student group by grade, enrollment_date;^c^C
+mysql> select substring_index(email,'0',-1) as email_domain,count(*) as student_count from student group by email;
++------------------------------+---------------+
+| email_domain                 | student_count |
++------------------------------+---------------+
+| john.doe@example.com         |             1 |
+| jane.smith@example.com       |             1 |
+| emily.johnson@example.com    |             1 |
+| michael.williams@example.com |             1 |
+| anna.brown@example.com       |             1 |
++------------------------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select enrollment_date,avg(grade) as average_grade from student group by enrollment_date having avg(grade)>85;
++-----------------+---------------+
+| enrollment_date | average_grade |
++-----------------+---------------+
+| 2024-01-10      |     88.500000 |
+| 2024-01-15      |     92.000000 |
+| 2024-02-05      |     95.000000 |
++-----------------+---------------+
+3 rows in set (0.02 sec)
+
+mysql> select enrollment_date,sum(grade) as total_grade from student group by enrollment_date having sum(grade)>90;
++-----------------+-------------+
+| enrollment_date | total_grade |
++-----------------+-------------+
+| 2024-01-15      |       92.00 |
+| 2024-02-05      |       95.00 |
++-----------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>  -- order by
+mysql> select*from student order by grade desc;
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          3 | Emily      | Johnson   | emily.johnson@example.com    | 78.00 | 2024-02-01      | NULL         |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from student order enrollment_date desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'enrollment_date desc' at line 1
+mysql> select*from student order by enrollment_date desc;
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+| student_id | first_name | last_name | email                        | grade | enrollment_date | phone_number |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+|          5 | Anna       | Brown     | anna.brown@example.com       | 95.00 | 2024-02-05      | 555-0104     |
+|          3 | Emily      | Johnson   | emily.johnson@example.com    | 78.00 | 2024-02-01      | NULL         |
+|          4 | Michael    | Williams  | michael.williams@example.com | 85.00 | 2024-01-20      | 555-0103     |
+|          2 | Jane       | Smith     | jane.smith@example.com       | 92.00 | 2024-01-15      | 555-0102     |
+|          1 | John       | Doe       | john.doe@example.com         | 88.50 | 2024-01-10      | 555-0101     |
++------------+------------+-----------+------------------------------+-------+-----------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> create table course(course_id INT, course_name VARCHAR(100), instructor VARCHAR(100));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> desc course;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| course_id   | int          | YES  |     | NULL    |       |
+| course_name | varchar(100) | YES  |     | NULL    |       |
+| instructor  | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into course (course_id, course_name, instructor) values(1, 'mathematics', 'Dr. Smith'), (2, 'Physics','Dr. Jhonson'),(3,'Chemistry','Dr.lee'),(4,'biology','Dr. lee'),(5,'History','Martin');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc course;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| course_id   | int          | YES  |     | NULL    |       |
+| course_name | varchar(100) | YES  |     | NULL    |       |
+| instructor  | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select*from course;
++-----------+-------------+-------------+
+| course_id | course_name | instructor  |
++-----------+-------------+-------------+
+|         1 | mathematics | Dr. Smith   |
+|         2 | Physics     | Dr. Jhonson |
+|         3 | Chemistry   | Dr.lee      |
+|         4 | biology     | Dr. lee     |
+|         5 | History     | Martin      |
++-----------+-------------+-------------+
+5 rows in set (0.00 sec)
+mysql> use codegnan;
+Database changed
+mysql> create table course_Completed (course_id INT, course_name VARCHAR(100), instructor VARCHAR(100));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc course;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| course_id   | int          | YES  |     | NULL    |       |
+| course_name | varchar(100) | YES  |     | NULL    |       |
+| instructor  | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into course_Completed (course_id, course_name, instructor) values(2, 'Physics', 'Dr. Jhonson'),(3,'Chemistry','Dr.Brown'),(6,'compute science', 'Dr. Walker'),(7, 'art', 'Dr. Scott');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select*from course_completed;
++-----------+-----------------+-------------+
+| course_id | course_name     | instructor  |
++-----------+-----------------+-------------+
+|         2 | Physics         | Dr. Jhonson |
+|         3 | Chemistry       | Dr.Brown    |
+|         6 | compute science | Dr. Walker  |
+|         7 | art             | Dr. Scott   |
++-----------+-----------------+-------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+

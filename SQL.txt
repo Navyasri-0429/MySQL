@@ -1,0 +1,745 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 46
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   42 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.01 sec)
+
+mysql> --UPDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--UPDATE' at line 1
+mysql> ^C
+mysql> UPDATE CODEGNAN_EMP SET AGE=28 WHERE  EMP_ID='E007';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.05 sec)
+
+mysql> ALTER TABLE EMPLOYEES MODIFY ADDRESS=111 CHURCHIL WHERE EMP_ID ='E007';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=111 CHURCHIL WHERE EMP_ID ='E007'' at line 1
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='111 MEXICO' WHERE FIRSTNAME ='DINESH';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SET  TRANSACTION ISOLATION LEVEL READ COMMITTED;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT *FROM CODEGNAN_EMP WHERE EMP_ID='E001' FOR UPDATE;
+Empty set (0.00 sec)
+
+mysql> SELECT *FROM CODEGNAN_EMP WHERE EMP_ID='E007' FOR UPDATE;
++--------+-----------+----------+------+------------+------------+------+-------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT  |
++--------+-----------+----------+------+------------+------------+------+-------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH |
++--------+-----------+----------+------+------------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=31 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET LASTNAME='RAJ' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLL BACK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ROLL BACK' at line 1
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=45 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='000 AMERICA LOSS ANGLES' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS                 | PFID | DEPT   |
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | 000 AMERICA LOSS ANGLES | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI                  | NULL | ACTING |
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=45 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVAEPOINT UPDATE_SAVEPOINT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SAVAEPOINT UPDATE_SAVEPOINT' at line 1
+mysql> SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='AMERICA LOSSANGELS' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+--------------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS            | PFID | DEPT   |
++--------+-----------+----------+------+------------+--------------------+------+--------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | AMERICA LOSSANGELS | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI             | NULL | ACTING |
++--------+-----------+----------+------+------------+--------------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP WHERE EMP_ID='E007';
++--------+-----------+----------+------+------------+------------+------+-------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT  |
++--------+-----------+----------+------+------------+------------+------+-------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | 111 MEXICO | NULL | COACH |
++--------+-----------+----------+------+------------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql>  use codegnan;
+Database changed
+mysql> create table orders(  order_id int primary key, customer_id int, order_date DATE, total_amount decimal(10,2),shipping_address varchar(255),payment_status varchar(20),delivery_status varchar(20));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc orders;
++------------------+---------------+------+-----+---------+-------+
+| Field            | Type          | Null | Key | Default | Extra |
++------------------+---------------+------+-----+---------+-------+
+| order_id         | int           | NO   | PRI | NULL    |       |
+| customer_id      | int           | YES  |     | NULL    |       |
+| order_date       | date          | YES  |     | NULL    |       |
+| total_amount     | decimal(10,2) | YES  |     | NULL    |       |
+| shipping_address | varchar(255)  | YES  |     | NULL    |       |
+| payment_status   | varchar(20)   | YES  |     | NULL    |       |
+| delivery_status  | varchar(20)   | YES  |     | NULL    |       |
++------------------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> INSERT INTO orders (order_id, costomer_id, order_date, total_amount, shipping_address, payment_status, delivery_status) VALUES (1, 101,'2023-01-05', 150.00, '123 main st, Anytown, USA',  'Paid', 'Shipped'), (2, 102, '2023-01-10', 200.50, '456 Elm st, Smalltown, USA', 'paid', 'Delivered'),(3,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 46
+Server version: 8.0.39 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| codegnan           |
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql> use codegnan;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_codegnan |
++--------------------+
+| codegnan_emp       |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   42 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.01 sec)
+
+mysql> --UPDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--UPDATE' at line 1
+mysql> ^C
+mysql> UPDATE CODEGNAN_EMP SET AGE=28 WHERE  EMP_ID='E007';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.05 sec)
+
+mysql> ALTER TABLE EMPLOYEES MODIFY ADDRESS=111 CHURCHIL WHERE EMP_ID ='E007';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=111 CHURCHIL WHERE EMP_ID ='E007'' at line 1
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+-----------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS   | PFID | DEPT   |
++--------+-----------+----------+------+------------+-----------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | TAMILNADU | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI    | NULL | ACTING |
++--------+-----------+----------+------+------------+-----------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='111 MEXICO' WHERE FIRSTNAME ='DINESH';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select*from codegnan_emp;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SET  TRANSACTION ISOLATION LEVEL READ COMMITTED;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT *FROM CODEGNAN_EMP WHERE EMP_ID='E001' FOR UPDATE;
+Empty set (0.00 sec)
+
+mysql> SELECT *FROM CODEGNAN_EMP WHERE EMP_ID='E007' FOR UPDATE;
++--------+-----------+----------+------+------------+------------+------+-------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT  |
++--------+-----------+----------+------+------------+------------+------+-------+
+| E007   | DINESH    | KARTHIK  |   28 | 2005-06-25 | 111 MEXICO | NULL | COACH |
++--------+-----------+----------+------+------------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=31 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | KARTHIK  |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET LASTNAME='RAJ' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLL BACK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ROLL BACK' at line 1
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=45 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='000 AMERICA LOSS ANGLES' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS                 | PFID | DEPT   |
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | 000 AMERICA LOSS ANGLES | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI                  | NULL | ACTING |
++--------+-----------+----------+------+------------+-------------------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT   |
++--------+-----------+----------+------+------------+------------+------+--------+
+| E007   | DINESH    | RAJ      |   31 | 2005-06-25 | 111 MEXICO | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI     | NULL | ACTING |
++--------+-----------+----------+------+------------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET AGE=45 WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVAEPOINT UPDATE_SAVEPOINT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SAVAEPOINT UPDATE_SAVEPOINT' at line 1
+mysql> SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE CODEGNAN_EMP SET ADDRESS='AMERICA LOSSANGELS' WHERE EMP_ID='E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM CODEGNAN_EMP;
++--------+-----------+----------+------+------------+--------------------+------+--------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS            | PFID | DEPT   |
++--------+-----------+----------+------+------------+--------------------+------+--------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | AMERICA LOSSANGELS | NULL | COACH  |
+| E008   | KATHRINA  | KHAIF    |   50 | 2005-02-20 | MUMBAI             | NULL | ACTING |
++--------+-----------+----------+------+------------+--------------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT UPDATE_SAVEPOINT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT*FROM CODEGNAN_EMP WHERE EMP_ID='E007';
++--------+-----------+----------+------+------------+------------+------+-------+
+| EMP_ID | FIRSTNAME | LASTNAME | AGE  | DOJ        | ADDRESS    | PFID | DEPT  |
++--------+-----------+----------+------+------------+------------+------+-------+
+| E007   | DINESH    | RAJ      |   45 | 2005-06-25 | 111 MEXICO | NULL | COACH |
++--------+-----------+----------+------+------------+------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql>  use codegnan;
+Database changed
+mysql> create table orders(  order_id int primary key, customer_id int, order_date DATE, total_amount decimal(10,2),shipping_address varchar(255),payment_status varchar(20),delivery_status varchar(20));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc orders;
++------------------+---------------+------+-----+---------+-------+
+| Field            | Type          | Null | Key | Default | Extra |
++------------------+---------------+------+-----+---------+-------+
+| order_id         | int           | NO   | PRI | NULL    |       |
+| customer_id      | int           | YES  |     | NULL    |       |
+| order_date       | date          | YES  |     | NULL    |       |
+| total_amount     | decimal(10,2) | YES  |     | NULL    |       |
+| shipping_address | varchar(255)  | YES  |     | NULL    |       |
+| payment_status   | varchar(20)   | YES  |     | NULL    |       |
+| delivery_status  | varchar(20)   | YES  |     | NULL    |       |
++------------------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> INSERT INTO orders (order_id, costomer_id, order_date, total_amount, shipping_address, payment_status, delivery_status) VALUES (1, 101,'2023-01-05', 150.00, '123 main st, Anytown, USA',  'Paid', 'Shipped'), (2, 102, '2023-01-10', 200.50, '456 Elm st, Smalltown, USA', 'paid', 'Delivered'),(3,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
